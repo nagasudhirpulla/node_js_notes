@@ -4,18 +4,21 @@ https://nodejs.org/api/child_process.html#child_process_child_process_spawn_comm
 
 * Create a new child process using spawn method. We can optionally pass command line arguments via the array as shown below
 ```js
+// node js
 const { spawn } = require('child_process');
 const childPs = spawn('hello.py', ['--name', 'Sudhir']);
 ```
 
 * Send data to child process by writing to the *stdin* stream. We can signal the end of stream using the *end* method.
 ```js
+// node js
 childPs.stdin.write("Some application data to the child process, may be json")
 childPs.stdin.end();
 ```
 
 * Read data from child process using the *stdout* data listener. We can get to know the end of stream via the *close* event
 ```js
+// node js
 childPs.stdout.on('data', (data) => {
   console.log('recieved data from child process');
   console.log(data);
@@ -28,6 +31,7 @@ childPs.stdout.on('close', (code) => {
 
 * We can ```pipe``` a stream to child process stdin as shown in the example below taken from [here](https://blog.cloudboost.io/node-js-child-process-spawn-178eaaf8e1f9)
 ```js
+// node js
 const { spawn } = require('child_process');
 
 // Get the child from spawn with echo 
@@ -90,7 +94,7 @@ if __name__ == '__main__':
 
 * In case of messaging between 2 node js processes, *fork* can be used for convinient messaging as shown below taken from [here](https://www.freecodecamp.org/news/node-js-child-processes-everything-you-need-to-know-e69498fe970a/)
 ```js
-// parent file
+// parent js file
 const { fork } = require('child_process');
 
 const forked = fork('child.js');
@@ -103,7 +107,7 @@ forked.send({ hello: 'world' });
 ```
 
 ```js
-// child process file
+// child process js file
 process.on('message', (msg) => {
   console.log('Message from parent:', msg);
 });
