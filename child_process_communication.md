@@ -92,6 +92,43 @@ if __name__ == '__main__':
     main()
 ```
 
+* An example in which a python script communicates to node js process repeatedly using its output stream is shown below. This can be used for real time updates from child to parent process
+```js
+//parent.js
+var spawn = require('child_process').spawn;
+
+// python child process
+var py = spawn('python', ['child.py'])
+
+// listen for child output
+py.stdout.on('data', function(data) {
+    console.log(`${(new Date()).toLocaleString()}: ${data}`);
+});
+
+// listen for end of child
+py.stdout.on('end', function() {
+    console.log(`${(new Date()).toLocaleString()}: child process exited`);
+});
+```
+
+```py
+## child.py
+import random
+import time
+
+
+def main():
+    for pIter in range(1, 11):
+        time.sleep(0.5)
+        print('The output for iteration {0} is {1}'.format(
+            pIter, random.randrange(10, 100)), flush=True)
+
+
+# start process
+if __name__ == '__main__':
+    main()
+```
+
 * In case of messaging between 2 node js processes, *fork* can be used for convinient messaging as shown below taken from [here](https://www.freecodecamp.org/news/node-js-child-processes-everything-you-need-to-know-e69498fe970a/)
 ```js
 // parent js file
